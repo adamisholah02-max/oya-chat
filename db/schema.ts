@@ -1,0 +1,4 @@
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+export const sessions = sqliteTable('sessions', {id:text('id').primaryKey(),status:text('status').notNull().default('idle'),mode:text('mode').notNull().default('text'),city:text('city').notNull().default('Anywhere in Nigeria'),interest:text('interest').notNull().default('Anything'),peer:text('peer'),room:text('room'),seen:integer('seen').notNull(),lastSent:integer('last_sent').notNull().default(0)});
+export const messages = sqliteTable('messages',{id:integer('id').primaryKey({autoIncrement:true}),room:text('room').notNull(),sender:text('sender').notNull(),kind:text('kind').notNull(),body:text('body').notNull(),created:integer('created').notNull()});
+export const reports = sqliteTable('reports',{id:text('id').primaryKey(),reporter:text('reporter').notNull(),target:text('target').notNull(),reason:text('reason').notNull(),created:integer('created').notNull()});

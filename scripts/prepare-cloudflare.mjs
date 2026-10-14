@@ -1,0 +1,10 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {resolve} from 'node:path';
+const databaseId=process.env.OYA_D1_DATABASE_ID;
+if(!databaseId||! /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(databaseId)||databaseId==='00000000-0000-4000-8000-000000000000')throw Error('Set OYA_D1_DATABASE_ID to the real ID returned by wrangler d1 create oya-chat-db.');
+const path=resolve('dist/server/wrangler.json');
+const config=JSON.parse(readFileSync(path,'utf8'));
+config.name='oya-chat';config.topLevelName='oya-chat';config.workers_dev=true;
+config.d1_databases=[{binding:'DB',database_name:'oya-chat-db',database_id:databaseId,migrations_dir:resolve('drizzle')}];
+writeFileSync(path,JSON.stringify(config,null,2)+'\n');
+console.log('Cloudflare deployment configuration prepared for oya-chat.');
